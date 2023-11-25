@@ -17,7 +17,7 @@ module.exports = {
   entry: {
     // The frontend.entrypoint points to the HTML file for this build, so we need
     // to replace the extension to `.js`.
-    index: path.join(__dirname, frontend_entry).replace(/\.html$/, ".js"),
+    index: path.join(__dirname, frontend_entry).replace(/\.html$/, ".jsx"),
   },
   devtool: isDevelopment ? "source-map" : false,
   optimization: {
@@ -50,6 +50,26 @@ module.exports = {
   //    { test: /\.css$/, use: ['style-loader','css-loader'] }
   //  ]
   // },
+
+  module: {
+    rules: [
+      { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
+      { test: /\.css$/, use: ['style-loader','css-loader'] },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              // specify the output folder for your images
+              outputPath: 'image',
+            },
+          },
+        ],
+      }
+    ]
+   },
+   
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, frontend_entry),
